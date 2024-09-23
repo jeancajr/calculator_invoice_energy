@@ -210,3 +210,78 @@ Se eligió FastAPI por sus siguientes características:
 
 ### Soporte de Multilingüa y Localización
 - A futuro, el sistema podría expandirse para soportar diferentes idiomas y configuraciones regionales. Esto incluiría la localización de formatos de fecha, moneda, y unidades de medida, permitiendo que la API sea útil en diferentes regiones y mercados.
+
+## Notas Adicionales
+Si se requiere adicionar datos aleatorios a la base de datos para realiza algun test, se podria agregar los siguientes Querys a la base de datos.
+
+```
+-- Insertar 20 registros en la tabla services:
+DO $$
+BEGIN
+    FOR i IN 1..20 LOOP
+        INSERT INTO services (id_market, cdi, voltage_level) 
+        VALUES (
+            (random() * 10)::int,  -- id_market aleatorio entre 0 y 10
+            (random() * 1000)::int, -- cdi aleatorio entre 0 y 1000
+            (random() * 10)::int    -- voltage_level aleatorio entre 0 y 10
+        );
+    END LOOP;
+END $$;
+
+
+-- Insertar 20 registros en la tabla records:
+DO $$
+BEGIN
+    FOR i IN 1..20 LOOP
+        INSERT INTO records (id_service, record_timestamp) 
+        VALUES (
+            (random() * 20 + 1)::int,  -- id_service aleatorio entre 1 y 20
+            NOW() - INTERVAL '1 day' * (random() * 30)::int  -- Fecha aleatoria en los últimos 30 días
+        );
+    END LOOP;
+END $$;
+
+-- Insertar 20 registros en la tabla consumption:
+DO $$
+BEGIN
+    FOR i IN 1..20 LOOP
+        INSERT INTO consumption (id_record, value) 
+        VALUES (
+            (random() * 20 + 1)::int,  -- id_record aleatorio entre 1 y 20
+            random() * 1000  -- valor de consumo aleatorio entre 0 y 1000
+        );
+    END LOOP;
+END $$;
+
+-- Insertar 20 registros en la tabla injection:
+DO $$
+BEGIN
+    FOR i IN 1..20 LOOP
+        INSERT INTO injection (id_record, value) 
+        VALUES (
+            (random() * 20 + 1)::int,  -- id_record aleatorio entre 1 y 20
+            random() * 500  -- valor de inyección aleatorio entre 0 y 500
+        );
+    END LOOP;
+END $$;
+
+-- Insertar 20 registros en la tabla tariffs:
+DO $$
+BEGIN
+    FOR i IN 1..20 LOOP
+        INSERT INTO tariffs (id_market, cdi, voltage_level, G, T, D, R, C, P, CU) 
+        VALUES (
+            (random() * 10)::int,   -- id_market aleatorio entre 0 y 10
+            (random() * 1000)::int, -- cdi aleatorio entre 0 y 1000
+            (random() * 10)::int,   -- voltage_level aleatorio entre 0 y 10
+            random(),               -- G tarifa aleatoria
+            random(),               -- T tarifa aleatoria
+            random(),               -- D tarifa aleatoria
+            random(),               -- R tarifa aleatoria
+            random(),               -- C tarifa aleatoria
+            random(),               -- P tarifa aleatoria
+            random() * 0.5 + 0.1    -- CU tarifa entre 0.1 y 0.6
+        );
+    END LOOP;
+END $$;
+```
