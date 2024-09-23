@@ -1,6 +1,7 @@
-# calculator_invoice_energy
+# Calculadora de factura de energia - energy_invoice_calculator
 
 Esta API permite realizar cálculos y obtener información relacionada con facturas de energía. Incluye la capacidad de calcular conceptos como Energía Activa (EA), Excedentes de Energía tipo 1 (EE1), Excedentes de Energía tipo 2 (EE2), y Comercialización de Excedentes de Energía (EC), así como proporcionar estadísticas de consumo e inyección de energía.
+Se espera que este sistema sea escalable, fácil de mantener, y permita la integración con otras herramientas de análisis y procesamiento de datos.
 
 ## Requisitos Previos
 
