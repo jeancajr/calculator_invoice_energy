@@ -1,21 +1,25 @@
 
 import psycopg2
+# Archivo utilizado para verificar la conexion a la base de datos
+# Nombre de la base de datos :  energybd
+# usuario : postgress
+# contraseña 123456
 try:
     conn = psycopg2.connect(
-        host="localhost",  # Cambia por la IP o dominio del servidor de Pagemind 4
-        database="energybd",  # Cambia por el nombre de tu base de datos
-        user="postgres",  # Cambia por tu usuario de PostgreSQL
-        password="123456"  # Cambia por la contraseña correspondiente
+        host="localhost",  
+        database="energybd",  
+        user="postgres", 
+        password="123456" 
     )
     print("Conexión exitosa a la base de datos.")
     
-    # Verificar el estado de la conexión
+    # Se Verifica el estado de la conexión
     cur = conn.cursor()
-    cur.execute("SELECT version();")  # Consulta la versión de PostgreSQL
+    cur.execute("SELECT version();")  # Se Consulta la versión de PostgreSQL
     db_version = cur.fetchone()
     print(f"Versión de la base de datos: {db_version}")
     
-    # Cierra la conexión
+    # Se cierra la conexión
     cur.close()
     conn.close()
 

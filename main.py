@@ -3,10 +3,13 @@ import psycopg2
 from pydantic import BaseModel
 from datetime import date
 
-# Crear la aplicación de FastAPI
+# Se Crea la aplicación de FastAPI
 app = FastAPI()
 
-# Conectar a PostgreSQL
+# Se Conecta a PostgreSQL
+# Nombre de la base de datos :  energybd
+# usuario : postgress
+# contraseña 123456
 conn = psycopg2.connect(
     host="localhost",
     database="energybd",
@@ -20,25 +23,26 @@ class InvoiceRequest(BaseModel):
     year: int
     month: int
 
-# Funciones auxiliares (usarías las funciones de cálculo ya desarrolladas)
+# Se importa desde calculos_factura
 from calculos_factura import calcular_factura, calcular_ea, calcular_ec, calcular_ee1_ee2
 
 
-### 3. Implementación de los Endpoints
+# Implementación de los Endpoints
 # Ruta raíz
 @app.get("/")
 def read_root():
     return {"message": "Bienvenido a la API de Facturación Energética"}
-### 3.1 POST /calculate-invoice
+
+# POST /calculate-invoice
 @app.post("/calculate-invoice")
 async def calculate_invoice(invoice_request: InvoiceRequest):
     try:
-        # Desglosar el request
+        # se Desglosa el request
         client_id = invoice_request.client_id
         year = invoice_request.year
         month = invoice_request.month
         
-        # Llamar a las funciones de cálculo
+        # Se Llama a las funciones de cálculo
         ea, ec, ee1, ee2 = calcular_factura(client_id, conn)
         
         return {
@@ -54,7 +58,7 @@ async def calculate_invoice(invoice_request: InvoiceRequest):
         raise HTTPException(status_code=400, detail=f"Error al calcular la factura: {str(e)}")
 
 
-### 3.2 GET /client-statistics/{client_id}
+# GET /client-statistics/{client_id}
 @app.get("/client-statistics/{client_id}")
 async def client_statistics(client_id: int):
     try:
@@ -83,12 +87,12 @@ async def client_statistics(client_id: int):
         raise HTTPException(status_code=400, detail=f"Error en estadísticas: {str(e)}")
 
 
-### 3.3 GET /system-load
+# GET /system-load
 @app.get("/system-load")
 async def system_load():
     try:
         with conn.cursor() as cur:
-            # Obtener la carga del sistema por hora
+            # Se Obtiene la carga del sistema por hora
             query = """
             SELECT r.hour, SUM(c.value) AS total_consumo
             FROM consumption c
@@ -99,14 +103,14 @@ async def system_load():
             cur.execute(query)
             result = cur.fetchall()
             
-            # Formatear los resultados
+            # Se Formatean los resultados
             system_load = [{"hour": row[0], "total_consumo": row[1]} for row in result]
             return system_load
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error en la carga del sistema: {str(e)}")
 
 
-### 3.4 Endpoints para cálculos independientes
+# Endpoints para cálculos independientes
 
 @app.get("/calculate-ea/{client_id}")
 async def calculate_ea(client_id: int):
