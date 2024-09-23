@@ -187,27 +187,27 @@ Se eligió FastAPI por sus siguientes características:
 - Documentación automática: FastAPI genera automáticamente la documentación de la API con Swagger y ReDoc.
 
 ### Elección de PostgreSQL como base de datos (Solicitado)
--PostgreSQL fue la base de datos seleccionada debido a su robustez, flexibilidad y compatibilidad con las operaciones SQL que requiere el proyecto.
--Maneja de manera eficiente grandes volúmenes de datos relacionados con las facturas de los clientes.
+- PostgreSQL fue la base de datos seleccionada debido a su robustez, flexibilidad y compatibilidad con las operaciones SQL que requiere el proyecto.
+- Maneja de manera eficiente grandes volúmenes de datos relacionados con las facturas de los clientes.
 
 ### Conexión a PostgreSQL con psycopg2.
--Se optó por psycopg2 para conexiones rápidas y control completo sobre las consultas SQL, 
+- Se optó por psycopg2 para conexiones rápidas y control completo sobre las consultas SQL, 
 
 ### Estructura modular
--El proyecto está diseñado de forma modular, con un archivo para la conexión a la base de datos (conexionbd.py), uno para los calculos (calculos_factura.py), y uno para los endpoints principales (main.py). Esta estructura facilita futuras expansiones y modificaciones, así como el posible trabajo colaborativo entre diferentes desarrolladores.
+- El proyecto está diseñado de forma modular, con un archivo para la conexión a la base de datos (conexionbd.py), uno para los calculos (calculos_factura.py), y uno para los endpoints principales (main.py). Esta estructura facilita futuras expansiones y modificaciones, así como el posible trabajo colaborativo entre diferentes desarrolladores.
 
 ### Gestión de errores
--En los endpoints, se implementó un manejo de excepciones utilizando HTTPException de FastAPI para asegurar que, en caso de errores durante el proceso de cálculo o consulta de la base de datos, se devuelva un mensaje claro al cliente. Esto también previene que fallas inesperadas generen errores genéricos que podrían confundir a los usuarios de la API.
+- En los endpoints, se implementó un manejo de excepciones utilizando HTTPException de FastAPI para asegurar que, en caso de errores durante el proceso de cálculo o consulta de la base de datos, se devuelva un mensaje claro al cliente. Esto también previene que fallas inesperadas generen errores genéricos que podrían confundir a los usuarios de la API.
 
 ## Posibles Mejoras
 ### Optimización de Consultas SQL
--A medida que el sistema crezca y maneje más datos, las consultas SQL para calcular el consumo y las estadísticas podrían optimizarse utilizando técnicas como la creación de índices en las tablas más consultadas o el uso de vistas materializadas. Esto para reducir el tiempo de respuesta en grandes volúmenes de datos.
+- A medida que el sistema crezca y maneje más datos, las consultas SQL para calcular el consumo y las estadísticas podrían optimizarse utilizando técnicas como la creación de índices en las tablas más consultadas o el uso de vistas materializadas. Esto para reducir el tiempo de respuesta en grandes volúmenes de datos.
 
 ### Escalabilidad y Arquitectura de Microservicios
--Ya que la aplicacion es un proyecto "pequeño", a medida que se integre con más sistemas o maneje mayores volúmenes de datos, sería beneficioso migrar hacia una arquitectura de microservicios, donde cada parte del sistema (facturación, estadísticas, etc.) funcione como un servicio independiente.
+- Ya que la aplicacion es un proyecto "pequeño", a medida que se integre con más sistemas o maneje mayores volúmenes de datos, sería beneficioso migrar hacia una arquitectura de microservicios, donde cada parte del sistema (facturación, estadísticas, etc.) funcione como un servicio independiente.
 
 ### Seguridad y Autenticación
--Para un ambiente de producción, sería esencial agregar autenticación y autorización a la API.
+- Para un ambiente de producción, sería esencial agregar autenticación y autorización a la API.
 
 ### Soporte de Multilingüa y Localización
--A futuro, el sistema podría expandirse para soportar diferentes idiomas y configuraciones regionales. Esto incluiría la localización de formatos de fecha, moneda, y unidades de medida, permitiendo que la API sea útil en diferentes regiones y mercados.
+- A futuro, el sistema podría expandirse para soportar diferentes idiomas y configuraciones regionales. Esto incluiría la localización de formatos de fecha, moneda, y unidades de medida, permitiendo que la API sea útil en diferentes regiones y mercados.
