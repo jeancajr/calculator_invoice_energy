@@ -13,7 +13,7 @@ Se espera que este sistema sea escalable, fácil de mantener, y permita la integ
 ## Configuración
 
 Clonar el repositorio: 
-`git clone https://github.com/tu_usuario/energy_invoice_calculator.git
+`git clone https://[github.com/tu_usuario/energy_invoice_calculator.git](https://github.com/jeancajr/energy_invoice_calculator.git)
     cd energy_invoice_calculator`
     
 Configurar la base de datos usando el archivo energybd.sql.
