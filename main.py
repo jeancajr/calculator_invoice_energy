@@ -10,6 +10,9 @@ app = FastAPI()
 # Nombre de la base de datos :  energybd
 # usuario : postgress
 # contraseña 123456
+
+## en http://127.0.0.1:8000/docs se prueba FastAPI
+
 conn = psycopg2.connect(
     host="localhost",
     database="energybd",
@@ -31,18 +34,18 @@ from calculos_factura import calcular_factura, calcular_ea, calcular_ec, calcula
 # Ruta raíz
 @app.get("/")
 def read_root():
-    return {"message": "Bienvenido a la API de Facturación Energética"}
+    return {"message": "Bienvenido a la API de Facturación Energética ll"}
 
 # POST /calculate-invoice
 @app.post("/calculate-invoice")
 async def calculate_invoice(invoice_request: InvoiceRequest):
     try:
-        # se Desglosa el request
+        # Se desglosa el request
         client_id = invoice_request.client_id
         year = invoice_request.year
         month = invoice_request.month
         
-        # Se Llama a las funciones de cálculo
+        # Llama a las funciones de cálculo
         ea, ec, ee1, ee2 = calcular_factura(client_id, conn)
         
         return {
@@ -92,19 +95,19 @@ async def client_statistics(client_id: int):
 async def system_load():
     try:
         with conn.cursor() as cur:
-            # Se Obtiene la carga del sistema por hora
+            # Se obtiene la carga del sistema por hora usando record_timestamp de la tabla records
             query = """
-            SELECT r.hour, SUM(c.value) AS total_consumo
+            SELECT EXTRACT(HOUR FROM r.record_timestamp) AS hour, SUM(c.value) AS total_consumo
             FROM consumption c
             JOIN records r ON c.id_record = r.id_record
-            GROUP BY r.hour
-            ORDER BY r.hour;
+            GROUP BY hour
+            ORDER BY hour;
             """
             cur.execute(query)
             result = cur.fetchall()
             
-            # Se Formatean los resultados
-            system_load = [{"hour": row[0], "total_consumo": row[1]} for row in result]
+            # Se formatean los resultados
+            system_load = [{"hour": int(row[0]), "total_consumo": row[1]} for row in result]
             return system_load
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error en la carga del sistema: {str(e)}")
@@ -113,7 +116,7 @@ async def system_load():
 # Endpoints para cálculos independientes
 
 @app.get("/calculate-ea/{client_id}")
-async def calculate_ea(client_id: int):
+async def calculate_ea_endpoint(client_id: int):
     try:
         ea = calcular_ea(client_id, conn)
         return {"client_id": client_id, "ea": ea}
@@ -122,7 +125,7 @@ async def calculate_ea(client_id: int):
 
 
 @app.get("/calculate-ec/{client_id}")
-async def calculate_ec(client_id: int):
+async def calculate_ec_endpoint(client_id: int):
     try:
         ec = calcular_ec(client_id, conn)
         return {"client_id": client_id, "ec": ec}
@@ -131,7 +134,7 @@ async def calculate_ec(client_id: int):
 
 
 @app.get("/calculate-ee1-ee2/{client_id}")
-async def calculate_ee1_ee2(client_id: int):
+async def calculate_ee1_ee2_endpoint(client_id: int):
     try:
         ee1, ee2 = calcular_ee1_ee2(client_id, conn)
         return {"client_id": client_id, "ee1": ee1, "ee2": ee2}
